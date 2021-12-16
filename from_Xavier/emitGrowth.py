@@ -31,12 +31,14 @@ if __name__ == '__main__':
     sidebands = np.arange(-nSideband,nSideband+0.5)
     chroma = 0.5
     chromaShift = chroma*frev/eta
-    freqs = frev*(0.31+sidebands+modeNumber*Qs)
+    freqs = frev*(0.18+sidebands-modeNumber*Qs)
     hs = hmm_gauss(freqs-chromaShift,tau,m=modeNumber)
     zeffs = np.interp(np.abs(freqs),freqZ,ReZ)*np.sign(freqs)*hs
     zeffs /= np.sum(hs)
     zeff = np.sum(zeffs)
-    dampingRate = zeff*cst.e**2*N/(16.0*np.pi*cst.m_p*gamma*Qx*frev*sigmaz)
+    print(zeff)
+    dampingRate = zeff*cst.e**2*N/(16.0*np.pi*cst.m_p*gamma*Qx*frev*sigmaz*2*np.pi)
+    print(dampingRate)
     #### Eq. 26 in https://aip.scitation.org/doi/abs/10.1063/1.47298 #################################################################################
     dGain = 2*dampingRate
     dmu = np.arange(1E-6,1E-5,5E-7)
@@ -51,5 +53,8 @@ if __name__ == '__main__':
     plt.plot(dmu*1E6,supps,'-b')
     plt.xlabel(r'R.m.s. tune spread [$10^{-6}$]')
     plt.ylabel(r'Emit. growth suppression factor')
+    plt.tight_layout()
+    x = plt.show()
 
-    plt.show()
+
+    test_var =1
